@@ -16,12 +16,17 @@ public class UserDAO {
         return users;
     }
 
-    public Boolean UserExists(User user){
-        for(User u : users){
-            return user != null & u.equals(user);
+
+    public boolean userExists(User user) {
+        for (User u : users) {
+            if (u != null && u.equals(user)) {
+                return true;
+            }
         }
         return false;
-    }
+
+        }
+
 
 
 }

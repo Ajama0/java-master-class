@@ -24,13 +24,13 @@ public class BookingService {
     }
 
 
-    public CarBooking bookCar(User user, Car car, LocalDate startDate, LocalDate endDate) {
+    public CarBooking createBooking(User user, Car car, LocalDate startDate, LocalDate endDate) {
         // ensure user exists and car exists
 
-        if(!userDAO.UserExists(user)){
+        if(!userDAO.userExists(user)){
             throw new IllegalArgumentException("User does not exist");
         }
-        if(car!= null && !carDAO.carExists(car.getId())){
+        if(!carDAO.carExists(car.getId())){
             throw new IllegalArgumentException("Car does not exist");
         }
 
@@ -47,7 +47,7 @@ public class BookingService {
         CarBooking[] bookings = bookingDAO.findAllBookings();
 
         for (CarBooking booking : bookings) {
-            if (booking.getCar().equals(car) && booking.getBookingStatus() == BookingStatus.Active){
+            if (booking.getCar().equals(car) && booking.getBookingStatus() == BookingStatus.ACTIVE){
                 throw new IllegalArgumentException("car is not available");
             }
         }
@@ -59,9 +59,66 @@ public class BookingService {
 
         // create a new booking and save it
         CarBooking bookedCar = new CarBooking(UUID.randomUUID(), user ,car, startDate, endDate,
-                LocalDateTime.now(),BookingStatus.Active);
+                LocalDateTime.now(),BookingStatus.ACTIVE);
 
         return bookingDAO.save(bookedCar);
+
+    }
+
+    public CarBooking[] deleteBooking(CarBooking booking){
+        if(booking.getBookingStatus() == BookingStatus.ACTIVE){
+            throw new IllegalArgumentException("active booking can not be deleted");
+        }
+
+        //also if a booking is already null, then we cant delete it.
+        return bookingDAO.deleteBooking(booking);
+    }
+
+    public CarBooking[] getAllBookings(){
+        return bookingDAO.findAllBookings();
+    }
+
+
+    public CarBooking[] getAllBookingsByUser(UUID userId){
+        CarBooking[] bookings = bookingDAO.findAllBookings();
+
+        // we need to know how many bookings the user has first.
+        int count = 0;
+        for(CarBooking booking : bookings){
+            if(booking.getUser().getId().equals(userId)){
+                count++;
+            }
+        }
+
+        int index = 0;
+        CarBooking[] userBookings = new CarBooking[count];
+        for(CarBooking booking : bookings){
+            if(booking.getUser().getId().equals(userId)){
+                userBookings[index++] = booking;
+            }
+        }
+        return userBookings;
+    }
+
+    public Car[] getAllAvailableCars(){
+        CarBooking[] bookings = bookingDAO.findAllBookings();
+
+        // if the booking is cancelled or completed it means the car is available
+
+        int count = 0;
+        for(CarBooking booking : bookings){
+            if(booking.getBookingStatus() != BookingStatus.ACTIVE){
+                count++;
+            }
+        }
+        int index = 0;
+        Car[] availableCars = new Car[count];
+        for(CarBooking booking : bookings){
+            if(booking.getBookingStatus() != BookingStatus.ACTIVE){
+                availableCars[index++] = booking.getCar();
+            }
+        }
+        return availableCars;
 
     }
 

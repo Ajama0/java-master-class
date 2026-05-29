@@ -13,17 +13,18 @@ public class CarDAO {
 
     public boolean carExists(UUID id) {
         for (Car car : cars) {
-           return car.getId().equals(id);
+            if (car != null && car.getId().equals(id)) {
+                return true;
             }
-        return false;
         }
+        return false;
 
-
-    public Car[] findAll(){
-        return cars;
     }
 
 
+        public Car[] findAll () {
+            return cars;
+        }
 
 
 
