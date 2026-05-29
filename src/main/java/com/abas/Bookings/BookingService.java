@@ -65,13 +65,14 @@ public class BookingService {
 
     }
 
-    public CarBooking[] deleteBooking(CarBooking booking){
-        if(booking.getBookingStatus() == BookingStatus.ACTIVE){
-            throw new IllegalArgumentException("active booking can not be deleted");
+    public CarBooking[] cancelBooking(UUID bookingId) {
+        for (CarBooking booking : bookingDAO.findAllBookings()) {
+            if (booking.getId().equals(bookingId) && booking.getBookingStatus() == BookingStatus.ACTIVE) {
+                return bookingDAO.deleteBooking(booking);
+            }
         }
+        throw new IllegalArgumentException("Booking does not exist or may be active");
 
-        //also if a booking is already null, then we cant delete it.
-        return bookingDAO.deleteBooking(booking);
     }
 
     public CarBooking[] getAllBookings(){

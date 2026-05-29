@@ -1,5 +1,7 @@
 package com.abas.Cars;
 
+import java.util.UUID;
+
 public class CarService {
 
     private final CarDAO carDAO;
@@ -31,7 +33,18 @@ public class CarService {
         return electricCars;
     }
 
+    public Car findById(UUID id){
+        for(Car car : carDAO.findAll()){
+            if( car!= null && car.getId().equals(id)){
+                return car;
+            }
+        }
+        throw new IllegalArgumentException("Car not found with id: " + id);
+    }
 
+    public Car[] findAll(){
+        return carDAO.findAll();
+    }
 
 
 }
