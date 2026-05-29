@@ -100,26 +100,36 @@ public class BookingService {
         return userBookings;
     }
 
-    public Car[] getAllAvailableCars(){
+    public Car[] getAllAvailableCars() {
+        Car[] allCars = carDAO.findAll();
         CarBooking[] bookings = bookingDAO.findAllBookings();
 
-        // if the booking is cancelled or completed it means the car is available
-
         int count = 0;
-        for(CarBooking booking : bookings){
-            if(booking.getBookingStatus() != BookingStatus.ACTIVE){
+        for (Car car : allCars) {
+            if (car != null && !isCarActivelyBooked(car, bookings)) {
                 count++;
             }
         }
+
+        Car[] available = new Car[count];
         int index = 0;
-        Car[] availableCars = new Car[count];
-        for(CarBooking booking : bookings){
-            if(booking.getBookingStatus() != BookingStatus.ACTIVE){
-                availableCars[index++] = booking.getCar();
+        for (Car car : allCars) {
+            if (car != null && !isCarActivelyBooked(car, bookings)) {
+                available[index++] = car;
             }
         }
-        return availableCars;
+        return available;
+    }
 
+    private boolean isCarActivelyBooked(Car car, CarBooking[] bookings) {
+        for (CarBooking booking : bookings) {
+            if (booking != null
+                    && booking.getCar().equals(car)
+                    && booking.getBookingStatus() == BookingStatus.ACTIVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
