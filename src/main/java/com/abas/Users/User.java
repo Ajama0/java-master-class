@@ -1,15 +1,15 @@
-package com.abas.User;
+package com.abas.Users;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class users {
+public class User {
 
     private UUID id;
 
     private String name;
 
-    public users(UUID id, String name) {
+    public User(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -32,7 +32,7 @@ public class users {
 
     @Override
     public String toString() {
-        return "users{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
@@ -41,7 +41,7 @@ public class users {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        users users = (users) o;
+        User users = (User) o;
         return Objects.equals(id, users.id) && Objects.equals(name, users.name);
     }
 
