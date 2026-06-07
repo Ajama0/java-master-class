@@ -13,14 +13,14 @@ import java.util.UUID;
 
 public class BookingService {
 
-    public UserDAO userDAO;
-    public CarDAO carDAO;
-    public BookingDAO bookingDAO;
+     private final UserDAO userDAO;
+     private final CarDAO carDAO;
+     private final BookingDAO bookingDAO;
 
-    public BookingService() {
-        this.userDAO = new UserDAO();
-        this.carDAO = new CarDAO();
-        this.bookingDAO = new BookingDAO();
+    public BookingService(UserDAO userDAO, CarDAO carDAO, BookingDAO bookingDAO) {
+        this.userDAO = userDAO;
+        this.carDAO = carDAO;
+        this.bookingDAO = bookingDAO;
     }
 
 
@@ -68,7 +68,7 @@ public class BookingService {
     public CarBooking[] cancelBooking(UUID bookingId) {
         for (CarBooking booking : bookingDAO.findAllBookings()) {
             if (booking.getId().equals(bookingId) && booking.getBookingStatus() == BookingStatus.ACTIVE) {
-                return bookingDAO.deleteBooking(booking);
+                return bookingDAO.cancelBooking(bookingId);
             }
         }
         throw new IllegalArgumentException("Booking does not exist or may be active");

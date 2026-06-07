@@ -1,21 +1,23 @@
 package com.abas.Cars;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class CarService {
 
+
     private final CarDAO carDAO;
 
-    public CarService() {
-        this.carDAO = new CarDAO();
+    public CarService(CarDAO carDAO) {
+        this.carDAO = carDAO;
     }
 
     public Car[] allElectricCars(){
-        Car[] cars = carDAO.findAll();
+        Car[] cars = findAll();
         //tells us the size of the array of electric cars
         int count = 0;
         for(Car car : cars){
-            if(car!=  null & car.getElectric()){
+            if(car!=  null && car.getElectric()){
                 count++;
             }
         }
@@ -25,7 +27,7 @@ public class CarService {
 
         int index = 0;
         for(Car car : cars){
-            if(car!= null & car.getElectric()){
+            if(car!= null && car.getElectric()){
                 electricCars[index] = car;
                 index++;
             }
@@ -45,6 +47,4 @@ public class CarService {
     public Car[] findAll(){
         return carDAO.findAll();
     }
-
-
 }

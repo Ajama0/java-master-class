@@ -4,10 +4,13 @@ package com.abas;
 // TODO 3. implement https://amigoscode.com/learn/java-cli-build/lectures/3a83ecf3-e837-4ae5-85a8-f8ae3f60f7f5
 
 
+import com.abas.Bookings.CarBookingArrayDataAccessService;
 import com.abas.Bookings.CarBooking;
 import com.abas.Cars.Car;
+import com.abas.Cars.CarArrayDataAcessService;
 import com.abas.Cars.CarService;
 import com.abas.Users.User;
+import com.abas.Users.UserDAO;
 import com.abas.Users.UserService;
 import com.abas.Bookings.BookingService;
 
@@ -17,12 +20,13 @@ import java.util.UUID;
 
 public class Main {
 
-    private static final BookingService bookingService = new BookingService();
-    private static final CarService carService = new CarService();
+    private static final BookingService bookingService = new BookingService(new UserDAO(), new CarArrayDataAcessService(), new CarBookingArrayDataAccessService());
+    private static final CarService carService = new CarService(new CarArrayDataAcessService());
     private static final UserService userService = new UserService();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+
         System.out.println("Java Master Class");
 
 
