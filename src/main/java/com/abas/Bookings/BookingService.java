@@ -24,7 +24,7 @@ public class BookingService {
     }
 
 
-    public CarBooking createBooking(User user, Car car, LocalDate startDate, LocalDate endDate) {
+    public void createBooking(User user, Car car, LocalDate startDate, LocalDate endDate) {
         // ensure user exists and car exists
 
         if(!userDAO.userExists(user)){
@@ -61,14 +61,14 @@ public class BookingService {
         CarBooking bookedCar = new CarBooking(UUID.randomUUID(), user ,car, startDate, endDate,
                 LocalDateTime.now(),BookingStatus.ACTIVE);
 
-        return bookingDAO.save(bookedCar);
+        bookingDAO.save(bookedCar);
 
     }
 
     public CarBooking[] cancelBooking(UUID bookingId) {
         for (CarBooking booking : bookingDAO.findAllBookings()) {
             if (booking.getId().equals(bookingId) && booking.getBookingStatus() == BookingStatus.ACTIVE) {
-                return bookingDAO.cancelBooking(bookingId);
+                bookingDAO.cancelBooking(bookingId);
             }
         }
         throw new IllegalArgumentException("Booking does not exist or may be active");

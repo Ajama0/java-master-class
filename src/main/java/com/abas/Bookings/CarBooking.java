@@ -3,11 +3,12 @@ package com.abas.Bookings;
 import com.abas.Cars.Car;
 import com.abas.Users.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CarBooking {
+public class CarBooking implements Serializable {
 
     private UUID id;
     private User user;

@@ -1,6 +1,7 @@
 package com.abas.Cars;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class CarArrayDataAcessService implements CarDAO{
@@ -12,6 +13,9 @@ public class CarArrayDataAcessService implements CarDAO{
                 Brand.AUDI,new BigDecimal("100.56"), false );
         cars[1] = new Car(UUID.fromString("9f8e7d6c-5b4a-3210-fedc-ba9876543210"),
                 Brand.MERCEDES,new BigDecimal("40.56"), true );
+
+
+        System.out.println(Arrays.toString(cars));
     }
 
 
@@ -27,6 +31,6 @@ public class CarArrayDataAcessService implements CarDAO{
 
     @Override
     public Car[] findAll() {
-        return new Car[0];
+        return cars;
     }
 }

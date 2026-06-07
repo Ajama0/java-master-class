@@ -4,15 +4,15 @@ package com.abas;
 // TODO 3. implement https://amigoscode.com/learn/java-cli-build/lectures/3a83ecf3-e837-4ae5-85a8-f8ae3f60f7f5
 
 
-import com.abas.Bookings.CarBookingArrayDataAccessService;
-import com.abas.Bookings.CarBooking;
+import com.abas.Bookings.*;
 import com.abas.Cars.Car;
 import com.abas.Cars.CarArrayDataAcessService;
+import com.abas.Cars.CarDAO;
 import com.abas.Cars.CarService;
 import com.abas.Users.User;
+import com.abas.Users.UserArrayDataAccessService;
 import com.abas.Users.UserDAO;
 import com.abas.Users.UserService;
-import com.abas.Bookings.BookingService;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -20,9 +20,20 @@ import java.util.UUID;
 
 public class Main {
 
-    private static final BookingService bookingService = new BookingService(new UserDAO(), new CarArrayDataAcessService(), new CarBookingArrayDataAccessService());
-    private static final CarService carService = new CarService(new CarArrayDataAcessService());
-    private static final UserService userService = new UserService();
+    private static final String filePath = "bookings.dat";
+
+    /// implementations
+    private static final UserDAO userDAO = new UserArrayDataAccessService();
+    private static final CarDAO carDao = new CarArrayDataAcessService();
+    private static final BookingDAO bookingDao = new CarBookingArrayDataAccessService();
+    private static final BookingDAO fileBookingDao = new CarBookingFileDataAccessService(filePath);
+
+    /// services
+    private static final BookingService bookingService = new BookingService(userDAO, carDao, fileBookingDao);
+    private static final CarService carService = new CarService(carDao);
+    private static final UserService userService = new UserService(userDAO);
+
+
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -89,8 +100,7 @@ public class Main {
             System.out.print("End date (YYYY-MM-DD): ");
             LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-            CarBooking booking = bookingService.createBooking(user, car, startDate, endDate);
-            System.out.println("Booking confirmed: " + booking);
+            bookingService.createBooking(user, car, startDate, endDate);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

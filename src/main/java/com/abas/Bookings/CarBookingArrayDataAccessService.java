@@ -9,13 +9,13 @@ public class CarBookingArrayDataAccessService implements BookingDAO{
     private int count = 0;
 
 
-    public CarBooking save(CarBooking cb) {
+    public void save(CarBooking cb) {
         // if count is greater than capacity then there is no more space for bookings
         if(count >= capacity) {
             throw new IllegalStateException("Booking capacity exceeded");
         }
         bookings[count++] = cb;
-        return cb;
+        System.out.println("Booking saved: " + cb);
 
     }
 
@@ -40,14 +40,14 @@ public class CarBookingArrayDataAccessService implements BookingDAO{
 
     }
 
-    public CarBooking[] cancelBooking(UUID id) {
+    public void cancelBooking(UUID id) {
         // to delete the booking we can just set the index of where that booking is to null?
         for (int i = 0; i < bookings.length; i++) {
             if(bookings[i]!=null && bookings[i].getId().equals(id) ) {
                 bookings[i] = null;
             }
         }
-        return bookings;
+        System.out.println("Booking with id:" + id + "successfully cancelled");
 
 
     }
