@@ -6,8 +6,8 @@ public class UserService {
 
     private UserDAO userDAO;
 
-    public UserService() {
-        this.userDAO = new UserDAO();
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public User[] findAll(){

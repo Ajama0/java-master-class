@@ -1,10 +1,11 @@
 package com.abas.Cars;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class Car {
+public class Car implements Serializable {
 
     private UUID id;
     private Brand brand;
