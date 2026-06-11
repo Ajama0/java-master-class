@@ -1,10 +1,11 @@
 package com.abas.Users;
 
 
+import java.util.List;
 
 public interface UserDAO {
 
-    User[] getUsers();
+    List<User> getUsers();
 
     boolean userExists(User user);
 

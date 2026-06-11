@@ -1,6 +1,7 @@
 package com.abas.Cars;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public interface CarDAO {
@@ -9,7 +10,7 @@ public interface CarDAO {
     boolean carExists(UUID id);
 
 
-    Car[] findAll ();
+    List<Car> findAll ();
 
 
 

@@ -1,5 +1,6 @@
 package com.abas.Users;
 
+import java.util.List;
 import java.util.UUID;
 
 public class UserService {
@@ -10,12 +11,12 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public User[] findAll(){
+    public List<User> findAll(){
         return userDAO.getUsers();
     }
 
     public User findById(UUID id){
-        User[] users = findAll();
+        List<User> users = findAll();
         for(User user : users){
             if(user!= null && user.getId().equals(id)){
                 return user;

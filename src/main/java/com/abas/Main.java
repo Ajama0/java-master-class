@@ -15,6 +15,7 @@ import com.abas.Users.UserDAO;
 import com.abas.Users.UserService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -183,7 +184,7 @@ public class Main {
     }
 
     private static void handleViewAllUsers() {
-        User[] users = userService.findAll();
+        List<User> users = userService.findAll();
 
         System.out.println("=== All Users ===");
         for (User user : users) {
