@@ -3,6 +3,8 @@ package com.abas.Bookings;
 import com.abas.Cars.Car;
 
 import java.io.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class CarBookingFileDataAccessService implements BookingDAO{
@@ -16,22 +18,18 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     @Override
     public CarBooking cancelBooking(UUID id) {
 
-        CarBooking[] existing = findAllBookings();
+        List<CarBooking> existing = findAllBookings();
         CarBooking cancelledBooking = null;
 
 
-        /// find the booking and update its status
-        boolean found = false;
         for (CarBooking booking : existing) {
             if (booking.getId().equals(id)) {
                 cancelledBooking = booking;
                 booking.setBookingStatus(BookingStatus.CANCELLED);
-                found = true;
-                break;
             }
         }
 
-        if (!found) {
+        if (cancelledBooking == null) {
             throw new IllegalArgumentException("Booking not found with id: " + id);
         }
 
@@ -47,27 +45,19 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     }
 
 
-
     @Override
     public UUID save(CarBooking booking) {
-
-        CarBooking[] existing = findAllBookings();
-
-        /// because we know the size of the array lets add one more index for the array we are appending
-        CarBooking[] updated = new CarBooking[existing.length + 1];
-
-        /// copy everything into a new array
-        for (int i = 0; i < existing.length; i++) {
-            updated[i] = existing[i];
+        if(booking == null) {
+            throw new IllegalArgumentException("Booking cannot be null");
         }
 
-        /// accessing the last index
-        updated[existing.length] = booking;
-
+        /// rewriting the entire file back
+        List<CarBooking> bookings = findAllBookings();
+        bookings.add(booking);
 
         /// write to the file
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            out.writeObject(updated);
+            out.writeObject(bookings);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to save bookings", e);
@@ -82,7 +72,7 @@ public class CarBookingFileDataAccessService implements BookingDAO{
 
     @Override
     public CarBooking findById(UUID id) {
-        CarBooking[] bookings = findAllBookings();
+        List<CarBooking> bookings = findAllBookings();
 
         for (CarBooking booking : bookings) {
             if (booking != null && booking.getId().equals(id)) {
@@ -94,15 +84,19 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     }
 
 
+
     @Override
-    public CarBooking[] findAllBookings() {
+    public List<CarBooking> findAllBookings() {
 
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
-            return new CarBooking[0];
+            ///  return empty list
+            return Collections.emptyList();
         }
+
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
-                return (CarBooking[]) inputStream.readObject();
+               Object o =  inputStream.readObject();
+               return (List<CarBooking>) o;
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Failed to read bookings", e);
             }

@@ -125,9 +125,9 @@ public class Main {
             System.out.print("Enter user ID: ");
             UUID userId = UUID.fromString(scanner.nextLine());
 
-            CarBooking[] bookings = bookingService.getAllBookingsByUser(userId);
+            List<CarBooking> bookings = bookingService.getAllBookingsByUser(userId);
 
-            if (bookings.length == 0) {
+            if (bookings.isEmpty()) {
                 System.out.println("No bookings found for this user");
                 return;
             }
@@ -142,9 +142,9 @@ public class Main {
     }
 
     private static void handleViewAllBookings() {
-        CarBooking[] bookings = bookingService.getAllBookings();
+        List<CarBooking> bookings = bookingService.getAllBookings();
 
-        if (bookings.length == 0) {
+        if (bookings.isEmpty()) {
             System.out.println("No bookings in the system");
             return;
         }
@@ -156,9 +156,9 @@ public class Main {
     }
 
     private static void handleViewAvailableCars() {
-        Car[] cars = carService.findAll();
+        List<Car> cars = carService.findAll();
 
-        if (cars.length == 0) {
+        if (cars.isEmpty()) {
             System.out.println("No cars available");
             return;
         }
@@ -170,9 +170,9 @@ public class Main {
     }
 
     private static void handleViewElectricCars() {
-        Car[] cars = carService.allElectricCars();
+        List<Car> cars =  carService.allElectricCars();
 
-        if (cars.length == 0) {
+        if (cars.isEmpty()) {
             System.out.println("No electric cars available");
             return;
         }
