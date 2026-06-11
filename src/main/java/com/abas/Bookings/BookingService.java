@@ -65,10 +65,10 @@ public class BookingService {
 
     }
 
-    public CarBooking[] cancelBooking(UUID bookingId) {
+    public CarBooking cancelBooking(UUID bookingId) {
         for (CarBooking booking : bookingDAO.findAllBookings()) {
             if (booking.getId().equals(bookingId) && booking.getBookingStatus() == BookingStatus.ACTIVE) {
-                bookingDAO.cancelBooking(bookingId);
+                return bookingDAO.cancelBooking(bookingId);
             }
         }
         throw new IllegalArgumentException("Booking does not exist or may be active");

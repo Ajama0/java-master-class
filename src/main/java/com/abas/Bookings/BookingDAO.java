@@ -6,7 +6,7 @@ public interface BookingDAO {
 
     CarBooking[] findAllBookings();
 
-    void cancelBooking(UUID id);
+    CarBooking cancelBooking(UUID id);
 
     void save(CarBooking booking);
 

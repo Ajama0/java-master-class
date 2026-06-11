@@ -14,15 +14,17 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     }
 
     @Override
-    public void cancelBooking(UUID id) {
+    public CarBooking cancelBooking(UUID id) {
 
         CarBooking[] existing = findAllBookings();
+        CarBooking cancelledBooking = null;
 
 
         /// find the booking and update its status
         boolean found = false;
         for (CarBooking booking : existing) {
             if (booking.getId().equals(id)) {
+                cancelledBooking = booking;
                 booking.setBookingStatus(BookingStatus.CANCELLED);
                 found = true;
                 break;
@@ -39,6 +41,9 @@ public class CarBookingFileDataAccessService implements BookingDAO{
         } catch (IOException e) {
             throw new RuntimeException("Failed to save bookings", e);
         }
+        return cancelledBooking;
+
+
     }
 
 

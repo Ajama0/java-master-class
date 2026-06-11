@@ -111,8 +111,8 @@ public class Main {
             System.out.print("Enter booking ID: ");
             UUID bookingId = UUID.fromString(scanner.nextLine());
 
-            bookingService.cancelBooking(bookingId);
-            System.out.println("Booking cancelled successfully");
+            CarBooking booking = bookingService.cancelBooking(bookingId);
+            System.out.println("Booking" + booking + " has been cancelled successfully ");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
