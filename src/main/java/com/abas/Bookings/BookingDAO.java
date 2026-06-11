@@ -8,7 +8,7 @@ public interface BookingDAO {
 
     CarBooking cancelBooking(UUID id);
 
-    void save(CarBooking booking);
+    UUID save(CarBooking booking);
 
     CarBooking findById(UUID id);
 }

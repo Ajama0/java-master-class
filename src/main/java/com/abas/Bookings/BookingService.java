@@ -24,7 +24,7 @@ public class BookingService {
     }
 
 
-    public void createBooking(User user, Car car, LocalDate startDate, LocalDate endDate) {
+    public UUID createBooking(User user, Car car, LocalDate startDate, LocalDate endDate) {
         // ensure user exists and car exists
 
         if(!userDAO.userExists(user)){
@@ -61,7 +61,7 @@ public class BookingService {
         CarBooking bookedCar = new CarBooking(UUID.randomUUID(), user ,car, startDate, endDate,
                 LocalDateTime.now(),BookingStatus.ACTIVE);
 
-        bookingDAO.save(bookedCar);
+        return bookingDAO.save(bookedCar);
 
     }
 

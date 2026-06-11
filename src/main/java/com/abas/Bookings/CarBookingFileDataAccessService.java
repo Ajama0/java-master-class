@@ -49,7 +49,7 @@ public class CarBookingFileDataAccessService implements BookingDAO{
 
 
     @Override
-    public void save(CarBooking booking) {
+    public UUID save(CarBooking booking) {
 
         CarBooking[] existing = findAllBookings();
 
@@ -74,6 +74,7 @@ public class CarBookingFileDataAccessService implements BookingDAO{
         }
 
         System.out.println("Booking saved: " + booking.getId());
+        return booking.getId();
 
     }
 

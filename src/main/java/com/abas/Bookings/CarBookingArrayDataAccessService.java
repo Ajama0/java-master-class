@@ -9,13 +9,13 @@ public class CarBookingArrayDataAccessService implements BookingDAO{
     private int count = 0;
 
 
-    public void save(CarBooking cb) {
+    public UUID save(CarBooking cb) {
         // if count is greater than capacity then there is no more space for bookings
         if(count >= capacity) {
             throw new IllegalStateException("Booking capacity exceeded");
         }
         bookings[count++] = cb;
-        System.out.println("Booking saved: " + cb);
+        return cb.getId();
 
     }
 
@@ -56,7 +56,7 @@ public class CarBookingArrayDataAccessService implements BookingDAO{
     @Override
     public CarBooking findById(UUID id) {
         for (CarBooking booking : bookings) {
-            if(booking.getId().equals(id)) {
+            if(booking!=null && booking.getId().equals(id)) {
                 return booking;
             }
 
