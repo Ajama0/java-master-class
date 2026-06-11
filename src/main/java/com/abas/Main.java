@@ -30,7 +30,7 @@ public class Main {
     private static final BookingDAO fileBookingDao = new CarBookingFileDataAccessService(filePath);
 
     /// services
-    private static final BookingService bookingService = new BookingService(userDAO, carDao, fileBookingDao);
+    private static final BookingService bookingService = new BookingService(userDAO, carDao, bookingDao);
     private static final CarService carService = new CarService(carDao);
     private static final UserService userService = new UserService(userDAO);
 
