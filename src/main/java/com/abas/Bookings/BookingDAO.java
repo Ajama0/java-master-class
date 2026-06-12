@@ -1,10 +1,11 @@
 package com.abas.Bookings;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface BookingDAO {
 
-    CarBooking[] findAllBookings();
+    List<CarBooking> findAllBookings();
 
     CarBooking cancelBooking(UUID id);
 

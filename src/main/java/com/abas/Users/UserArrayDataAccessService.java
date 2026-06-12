@@ -1,19 +1,21 @@
 package com.abas.Users;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UserArrayDataAccessService implements UserDAO{
-    private static User[] users = new User[2];
+    static List<User> users = new ArrayList<>();
 
     static {
-        users[0] = new User(UUID.fromString("8ca51d2b-aaaf-4bf2-834a-e02964e10fc3"), "Abas");
+        users.add(new User(UUID.fromString("8ca51d2b-aaaf-4bf2-834a-e02964e10fc3"), "Abas"));
 
-        users[1] = new User(UUID.fromString("b10d126a-3608-4980-9f9c-aa179f5cebc3"), "Jamila");
+        users.add(new User(UUID.fromString("b10d126a-3608-4980-9f9c-aa179f5cebc3"), "Jamila"));
 
     }
 
 
-    public User[] getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 

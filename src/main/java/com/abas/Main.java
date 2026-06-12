@@ -15,6 +15,7 @@ import com.abas.Users.UserDAO;
 import com.abas.Users.UserService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class Main {
     private static final BookingDAO fileBookingDao = new CarBookingFileDataAccessService(filePath);
 
     /// services
-    private static final BookingService bookingService = new BookingService(userDAO, carDao, fileBookingDao);
+    private static final BookingService bookingService = new BookingService(userDAO, carDao, bookingDao);
     private static final CarService carService = new CarService(carDao);
     private static final UserService userService = new UserService(userDAO);
 
@@ -124,9 +125,9 @@ public class Main {
             System.out.print("Enter user ID: ");
             UUID userId = UUID.fromString(scanner.nextLine());
 
-            CarBooking[] bookings = bookingService.getAllBookingsByUser(userId);
+            List<CarBooking> bookings = bookingService.getAllBookingsByUser(userId);
 
-            if (bookings.length == 0) {
+            if (bookings.isEmpty()) {
                 System.out.println("No bookings found for this user");
                 return;
             }
@@ -141,9 +142,9 @@ public class Main {
     }
 
     private static void handleViewAllBookings() {
-        CarBooking[] bookings = bookingService.getAllBookings();
+        List<CarBooking> bookings = bookingService.getAllBookings();
 
-        if (bookings.length == 0) {
+        if (bookings.isEmpty()) {
             System.out.println("No bookings in the system");
             return;
         }
@@ -155,9 +156,9 @@ public class Main {
     }
 
     private static void handleViewAvailableCars() {
-        Car[] cars = carService.findAll();
+        List<Car> cars = carService.findAll();
 
-        if (cars.length == 0) {
+        if (cars.isEmpty()) {
             System.out.println("No cars available");
             return;
         }
@@ -169,9 +170,9 @@ public class Main {
     }
 
     private static void handleViewElectricCars() {
-        Car[] cars = carService.allElectricCars();
+        List<Car> cars =  carService.allElectricCars();
 
-        if (cars.length == 0) {
+        if (cars.isEmpty()) {
             System.out.println("No electric cars available");
             return;
         }
@@ -183,7 +184,7 @@ public class Main {
     }
 
     private static void handleViewAllUsers() {
-        User[] users = userService.findAll();
+        List<User> users = userService.findAll();
 
         System.out.println("=== All Users ===");
         for (User user : users) {

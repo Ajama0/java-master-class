@@ -1,6 +1,8 @@
 package com.abas.Cars;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CarService {
@@ -12,27 +14,19 @@ public class CarService {
         this.carDAO = carDAO;
     }
 
-    public Car[] allElectricCars(){
-        Car[] cars = findAll();
-        //tells us the size of the array of electric cars
-        int count = 0;
-        for(Car car : cars){
-            if(car!=  null && car.getElectric()){
-                count++;
-            }
-        }
+    public List<Car> allElectricCars(){
+        List<Car> cars = findAll();
 
-        // size of the array will be the size of the electric cars therefore we can loop over it
-        Car[] electricCars = new Car[count];
+        List<Car> electricCars = new ArrayList<>();
 
-        int index = 0;
-        for(Car car : cars){
+        for (Car car : cars) {
             if(car!= null && car.getElectric()){
-                electricCars[index] = car;
-                index++;
+                electricCars.add(car);
+
             }
         }
         return electricCars;
+
     }
 
     public Car findById(UUID id){
@@ -44,7 +38,7 @@ public class CarService {
         throw new IllegalArgumentException("Car not found with id: " + id);
     }
 
-    public Car[] findAll(){
+    public List<Car> findAll(){
         return carDAO.findAll();
     }
 }
