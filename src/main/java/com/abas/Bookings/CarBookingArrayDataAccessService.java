@@ -14,7 +14,9 @@ public class CarBookingArrayDataAccessService implements BookingDAO {
             bookingList.add(cb);
             return cb.getId();
 
-        }throw new RuntimeException("Booking is null");
+        }
+
+        throw new RuntimeException("Booking is null");
 
     }
 
@@ -29,7 +31,6 @@ public class CarBookingArrayDataAccessService implements BookingDAO {
             for (CarBooking booking : bookingList) {
                 if (booking!= null && booking.getId().equals(id)) {
                     booking.setBookingStatus(BookingStatus.CANCELLED);
-                    System.out.println("Booking with id:" + id + "successfully cancelled");
                     return booking;
 
                 }

@@ -104,7 +104,8 @@ public class BookingService {
                 availableCars.add(car);
             }
 
-        }return availableCars;
+        }
+        return availableCars;
 
         }
 
