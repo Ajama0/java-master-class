@@ -21,12 +21,7 @@ public class UserArrayDataAccessService implements UserDAO{
 
 
     public boolean userExists(User user) {
-        for (User u : users) {
-            if (u != null && u.equals(user)) {
-                return true;
-            }
-        }
-        return false;
+        return users.stream().anyMatch(user1 -> user1.getId().equals(user.getId()));
 
     }
 
