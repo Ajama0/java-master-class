@@ -75,10 +75,15 @@ public class BookingService {
 
         List<CarBooking> bookings = bookingDAO.findAllBookings();
 
-        return bookings.stream().filter(
+        CarBooking bookingFound = bookings.stream().filter(
                         booking -> booking.getId().equals(bookingId)
                                 && booking.getBookingStatus().equals(BookingStatus.ACTIVE)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+
+        bookingDAO.cancelBooking(bookingFound);
+        return bookingFound;
+
+
 
 
     }

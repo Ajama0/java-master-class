@@ -16,22 +16,15 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     }
 
     @Override
-    public CarBooking cancelBooking(UUID id) {
+    public CarBooking cancelBooking(CarBooking booking) {
 
         List<CarBooking> existing = findAllBookings();
-        CarBooking cancelledBooking = null;
+
+        existing.stream().filter(b-> b.equals(booking)).findFirst().ifPresent(b->{
+            b.setBookingStatus(BookingStatus.CANCELLED);
+        });
 
 
-        for (CarBooking booking : existing) {
-            if (booking.getId().equals(id)) {
-                cancelledBooking = booking;
-                booking.setBookingStatus(BookingStatus.CANCELLED);
-            }
-        }
-
-        if (cancelledBooking == null) {
-            throw new IllegalArgumentException("Booking not found with id: " + id);
-        }
 
         /// write the updated array back
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
@@ -39,7 +32,8 @@ public class CarBookingFileDataAccessService implements BookingDAO{
         } catch (IOException e) {
             throw new RuntimeException("Failed to save bookings", e);
         }
-        return cancelledBooking;
+
+        return booking;
 
 
     }
@@ -74,14 +68,11 @@ public class CarBookingFileDataAccessService implements BookingDAO{
     public CarBooking findById(UUID id) {
         List<CarBooking> bookings = findAllBookings();
 
-        for (CarBooking booking : bookings) {
-            if (booking != null && booking.getId().equals(id)) {
-                return booking;
-            }
-        }
+        return bookings.stream().filter(b -> b.getId().equals(id)).findFirst()
+                .orElseThrow(()->new RuntimeException("Booking with id " + id + " not found"));
 
-        return null; // not found
-    }
+
+    };
 
 
 

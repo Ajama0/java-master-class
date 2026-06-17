@@ -26,16 +26,9 @@ public class CarBookingArrayDataAccessService implements BookingDAO {
 
         }
 
-        public CarBooking cancelBooking (UUID id){
+        public CarBooking cancelBooking (CarBooking cb) {
             // to delete the booking we can just the booking status to cancelled so it can be available again
-            for (CarBooking booking : bookingList) {
-                if (booking!= null && booking.getId().equals(id)) {
-                    booking.setBookingStatus(BookingStatus.CANCELLED);
-                    return booking;
-
-                }
-            }
-            throw new RuntimeException("Booking with id:" + id + " not found");
+            cb.setBookingStatus(BookingStatus.CANCELLED);
         }
 
 
