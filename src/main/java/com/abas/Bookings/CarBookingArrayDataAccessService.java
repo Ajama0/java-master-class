@@ -20,36 +20,29 @@ public class CarBookingArrayDataAccessService implements BookingDAO {
 
     }
 
-        public List<CarBooking> findAllBookings () {
-            /// bookings happen at run time not pre-seed.
-            return bookingList;
+    public List<CarBooking> findAllBookings() {
+        /// bookings happen at run time not pre-seed.
+        return bookingList;
 
-        }
-
-        public CarBooking cancelBooking (UUID id){
-            // to delete the booking we can just the booking status to cancelled so it can be available again
-            for (CarBooking booking : bookingList) {
-                if (booking!= null && booking.getId().equals(id)) {
-                    booking.setBookingStatus(BookingStatus.CANCELLED);
-                    return booking;
-
-                }
-            }
-            throw new RuntimeException("Booking with id:" + id + " not found");
-        }
-
-
-        @Override
-        public CarBooking findById (UUID id){
-            for (CarBooking booking : bookingList) {
-                if (booking != null && booking.getId().equals(id)) {
-                    return booking;
-                }
-
-            }
-            throw new IllegalStateException("Booking not found");
-        }
     }
+
+    public CarBooking cancelBooking(CarBooking cb) {
+        // to delete the booking we can just the booking status to cancelled so it can be available again
+        cb.setBookingStatus(BookingStatus.CANCELLED);
+        return cb;
+    }
+
+
+    @Override
+    public CarBooking findById(UUID id) {
+        List<CarBooking> bookings = findAllBookings();
+
+        return bookings.stream().filter(b -> b.getId().equals(id)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Booking with id " + id + " not found"));
+    }
+
+
+}
 
 
 

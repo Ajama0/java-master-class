@@ -16,13 +16,10 @@ public class UserService {
     }
 
     public User findById(UUID id){
-        List<User> users = findAll();
-        for(User user : users){
-            if(user!= null && user.getId().equals(id)){
-                return user;
-            }
-        }
-        throw new IllegalArgumentException("User not found");
+
+        return findAll().stream().filter(user -> user.getId().equals(id)).findFirst().
+                orElseThrow(()->new RuntimeException("User with id "+id+" not found"));
+
     }
 
 

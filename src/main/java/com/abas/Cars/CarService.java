@@ -17,26 +17,17 @@ public class CarService {
     public List<Car> allElectricCars(){
         List<Car> cars = findAll();
 
-        List<Car> electricCars = new ArrayList<>();
-
-        for (Car car : cars) {
-            if(car!= null && car.getElectric()){
-                electricCars.add(car);
-
-            }
-        }
-        return electricCars;
+        return cars.stream().filter(Car::getElectric).toList();
 
     }
 
-    public Car findById(UUID id){
-        for(Car car : carDAO.findAll()){
-            if( car!= null && car.getId().equals(id)){
-                return car;
-            }
-        }
-        throw new IllegalArgumentException("Car not found with id: " + id);
+    public Car findById(UUID id) {
+
+        return carDAO.findAll().stream().filter(car -> car.getId().equals(id)).findFirst().
+                orElseThrow(() -> new RuntimeException("Car not found"));
+
     }
+
 
     public List<Car> findAll(){
         return carDAO.findAll();

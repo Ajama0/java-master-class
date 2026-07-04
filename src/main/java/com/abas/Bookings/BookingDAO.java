@@ -7,7 +7,7 @@ public interface BookingDAO {
 
     List<CarBooking> findAllBookings();
 
-    CarBooking cancelBooking(UUID id);
+    CarBooking cancelBooking(CarBooking booking);
 
     UUID save(CarBooking booking);
 
