@@ -15,13 +15,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookingServiceTest {
@@ -72,18 +72,35 @@ class BookingServiceTest {
     }
 
     @Test
-    void cancelBooking() {
+    void CanCancelBooking() {
+
+        //given
+        UUID uuid = UUID.randomUUID();
+        when(bookingDAO.findAllBookings()).thenReturn(List.of(new CarBooking(uuid,
+                new User(UUID.randomUUID(), "Abas"), new Car(UUID.randomUUID(), Brand.MERCEDES,
+                BigDecimal.valueOf(500.0), true), LocalDate.now(), LocalDate.of(2026, 8,8),
+                LocalDateTime.now(),
+                BookingStatus.ACTIVE)));
+
+        //when
+        CarBooking booking = underTest.cancelBooking(uuid);
+
+        //then
+        verify(bookingDAO).cancelBooking(any());
+        assert(booking.getId().equals(uuid));
+
+
     }
 
     @Test
     void getAllBookings() {
+
+        //when
+        underTest.getAllBookings();
+
+        //then
+        verify(bookingDAO, times(1)).findAllBookings();
     }
 
-    @Test
-    void getAllBookingsByUser() {
-    }
 
-    @Test
-    void getAllAvailableCars() {
-    }
 }
