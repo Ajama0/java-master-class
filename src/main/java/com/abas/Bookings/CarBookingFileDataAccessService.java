@@ -3,6 +3,7 @@ package com.abas.Bookings;
 import com.abas.Cars.Car;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -17,26 +18,24 @@ public class CarBookingFileDataAccessService implements BookingDAO{
 
     @Override
     public CarBooking cancelBooking(CarBooking booking) {
-
         List<CarBooking> existing = findAllBookings();
 
-        existing.stream().filter(b-> b.equals(booking)).findFirst().ifPresent(b->{
-            b.setBookingStatus(BookingStatus.CANCELLED);
-        });
+        CarBooking bookingToCancel = existing.stream()
+                .filter(b -> b.getId().equals(booking.getId()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Booking with id " + booking.getId() + " not found"));
 
+        bookingToCancel.setBookingStatus(BookingStatus.CANCELLED);
 
-
-        /// write the updated array back
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             out.writeObject(existing);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save bookings", e);
         }
 
-        return booking;
-
-
+        return bookingToCancel;
     }
+
 
 
     @Override
@@ -82,7 +81,7 @@ public class CarBookingFileDataAccessService implements BookingDAO{
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
             ///  return empty list
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
 
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
