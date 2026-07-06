@@ -9,10 +9,7 @@ import com.abas.Cars.Car;
 import com.abas.Cars.CarArrayDataAcessService;
 import com.abas.Cars.CarDAO;
 import com.abas.Cars.CarService;
-import com.abas.Users.User;
-import com.abas.Users.UserArrayDataAccessService;
-import com.abas.Users.UserDAO;
-import com.abas.Users.UserService;
+import com.abas.Users.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,15 +21,16 @@ public class Main {
     private static final String filePath = "bookings.dat";
 
     /// implementations
-    private static final UserDAO userDAO = new UserArrayDataAccessService();
+    private static final UserDAO userArrayDAO = new UserArrayDataAccessService();
     private static final CarDAO carDao = new CarArrayDataAcessService();
     private static final BookingDAO bookingDao = new CarBookingArrayDataAccessService();
     private static final BookingDAO fileBookingDao = new CarBookingFileDataAccessService(filePath);
+    private static final UserDAO fakerDAO = new UserFakerDataAccessService();
 
     /// services
-    private static final BookingService bookingService = new BookingService(userDAO, carDao, bookingDao);
+    private static final BookingService bookingService = new BookingService(fakerDAO, carDao, bookingDao);
     private static final CarService carService = new CarService(carDao);
-    private static final UserService userService = new UserService(userDAO);
+    private static final UserService userService = new UserService(fakerDAO);
 
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -89,6 +87,7 @@ public class Main {
         try {
             System.out.print("Enter user ID: ");
             UUID userId = UUID.fromString(scanner.nextLine());
+            System.out.println("the uuid being passed in" + userId);
             User user = userService.findById(userId);
 
             System.out.print("Enter car ID: ");

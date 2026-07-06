@@ -16,5 +16,42 @@
 
     <dependencies>
         <!-- JUnit, Mockito etc. go here -->
+
+        <dependency>
+
+            <groupId>org.mockito</groupId>
+
+            <artifactId>mockito-junit-jupiter</artifactId>
+
+            <version>5.14.2</version>
+
+            <scope>test</scope>
+
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.14.2</version>
+            <scope> test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.27.3</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Source: https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class UserArrayDataAccessService implements UserDAO{
-    static List<User> users = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
 
     static {
         users.add(new User(UUID.fromString("8ca51d2b-aaaf-4bf2-834a-e02964e10fc3"), "Abas"));
