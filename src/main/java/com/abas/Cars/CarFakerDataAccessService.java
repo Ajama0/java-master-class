@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class CarFakerDataAccessService implements CarDAO {
 
-    List<Car> fakerCars = new ArrayList<Car>();
+    List<Car> fakerCars = new ArrayList<>();
 
 
     public CarFakerDataAccessService() {
@@ -21,6 +21,9 @@ public class CarFakerDataAccessService implements CarDAO {
                     BigDecimal.valueOf(faker.number().randomDouble(2, 20, 200)),
                     faker.bool().bool()));
         }
+
+        /// just for testing purposes
+        //System.out.println(fakerCars);
     }
 
     @Override
@@ -31,6 +34,8 @@ public class CarFakerDataAccessService implements CarDAO {
 
     @Override
     public boolean carExists(UUID id) {
-        fakerCars.stream().filter((car) -> car.getId().equals(id)).findFirst().orElseThrow(() ->
-                new CarNotFoundException("Car with id " + id + " not found"));
+        return fakerCars.stream().anyMatch(car -> car.getId().equals(id));
+    }
+
+
 }
