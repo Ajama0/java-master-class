@@ -6,9 +6,11 @@ import com.abas.Cars.CarDAO;
 import com.abas.Users.User;
 import com.abas.Users.UserDAO;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 class BookingServiceTest {
 
 
@@ -59,10 +61,9 @@ class BookingServiceTest {
 
         //then
         ArgumentCaptor<CarBooking> carBooking = ArgumentCaptor.forClass(CarBooking.class);
-        verify(bookingDAO.save(carBooking.capture()));
+        verify(bookingDAO).save(carBooking.capture());
         CarBooking carBookingValue = carBooking.getValue();
 
-        assertNotNull(booking);
         assert(carBookingValue.getCar().getBrand().equals(Brand.MERCEDES));
         assert(carBookingValue.getUser().getName().equals("Abas"));
         assert(carBookingValue.getStartDate().equals(startDate));
