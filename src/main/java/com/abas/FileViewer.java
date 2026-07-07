@@ -11,9 +11,9 @@ public class FileViewer {
     public static void main(String[] args) {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("bookings.dat"))) {
             List<CarBooking> bookings = (List<CarBooking>) in.readObject();
-            System.out.println("Total bookings: " + bookings.size());
+            //System.out.println("Total bookings: " + bookings.size());
             for (CarBooking booking : bookings) {
-                System.out.println(booking);
+               // System.out.println(booking);
             }
         } catch (Exception e) {
             e.printStackTrace();

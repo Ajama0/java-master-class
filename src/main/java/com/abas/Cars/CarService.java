@@ -1,5 +1,7 @@
 package com.abas.Cars;
 
+import com.abas.Exceptions.CarNotFoundException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class CarService {
     public Car findById(UUID id) {
 
         return carDAO.findAll().stream().filter(car -> car.getId().equals(id)).findFirst().
-                orElseThrow(() -> new RuntimeException("Car not found"));
+                orElseThrow(() -> new CarNotFoundException("Car with id " + id + " not found"));
 
     }
 

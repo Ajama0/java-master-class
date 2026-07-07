@@ -36,6 +36,7 @@ public class BookingService {
         if (!userDAO.userExists(user)) {
             throw new IllegalArgumentException("User does not exist");
         }
+
         if (!carDAO.carExists(car.getId())) {
             throw new IllegalArgumentException("Car does not exist");
         }
@@ -61,7 +62,7 @@ public class BookingService {
         //we can now calculate the price of the car for the number of days the user wants it for
         long days = ChronoUnit.DAYS.between(startDate, endDate);
         BigDecimal totalRentalPrice = car.getRentalPricePerDay().multiply(new BigDecimal(days));
-        System.out.println("Total rental price: " + totalRentalPrice);
+        System.out.println("Booking created! Total rental price: " + totalRentalPrice);
 
         // create a new booking and save it
         CarBooking bookedCar = new CarBooking(UUID.randomUUID(), user, car, startDate, endDate,
